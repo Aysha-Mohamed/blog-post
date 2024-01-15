@@ -1,9 +1,8 @@
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Typography } from '@mui/material'
-import './styles.css'
+import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 
@@ -17,6 +16,7 @@ interface Item {
   createdAt: string
   imgUrl: string | null
 }
+
 interface CreateBlogProps {
   data: Item[]
   setData: React.Dispatch<React.SetStateAction<Item[]>>
@@ -36,6 +36,11 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
   const [helperTextTitle, setHelperTextTitle] = useState('')
   const [helperTextContent, setHelperTextContent] = useState('')
   const [newContent, setNewContent] = useState('')
+  const [imageValidationMessage, setImageValidationMessage] = useState<
+    string | null
+  >(null)
+
+  const MAX_IMAGE_SIZE_MB = 5
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitleValue = e.target.value
@@ -53,13 +58,42 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
       : (setContentError(false), setHelperTextContent(''))
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+
     if (file) {
-      getBase64Image(file).then((base64) => {
-        setSelectedImage(base64)
-      })
+      try {
+        // Check image size before processing
+        await validateImageSize(file)
+
+        // If size is within limits, proceed with processing
+        getBase64Image(file).then((base64) => {
+          setSelectedImage(base64)
+          setImageValidationMessage('Image size succeeded')
+        })
+      } catch (error) {
+        setImageValidationMessage(
+          'Image size exceeds the maximum allowed size of 5 MB',
+        )
+        // Display an error message to the user, e.g., set a state to show an error message
+      }
     }
+  }
+
+  const validateImageSize = (file: File) => {
+    return new Promise<void>((resolve, reject) => {
+      const fileSizeMB = file.size / (1024 * 1024)
+
+      if (fileSizeMB > MAX_IMAGE_SIZE_MB) {
+        reject(
+          new Error(
+            `Image size exceeds the maximum allowed size of ${MAX_IMAGE_SIZE_MB} MB`,
+          ),
+        )
+      } else {
+        resolve()
+      }
+    })
   }
 
   const handleCreateNewBlog = () => {
@@ -106,12 +140,14 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
       setNewTitle('')
       setNewContent('')
       setIsCreateBlog(false)
+      setImageValidationMessage(null) // Reset image validation message
     }
   }
 
   const handleCancelNewBlog = () => {
     setSelectedImage(null)
     setIsCreateBlog(false)
+    setImageValidationMessage(null) // Reset image validation message
   }
 
   const handleRemoveImage = () => {
@@ -120,6 +156,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
     if (imageInput) {
       imageInput.value = '' // Reset the input value
     }
+    setImageValidationMessage(null) // Reset image validation message
   }
 
   return (
@@ -168,6 +205,18 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
             />
           )}
 
+          {imageValidationMessage ? (
+            <Typography
+              color={
+                imageValidationMessage.includes('succeeded')
+                  ? 'success'
+                  : 'error'
+              }
+            >
+              {imageValidationMessage}
+            </Typography>
+          ) : null}
+
           <Box>
             {' '}
             <Button
@@ -202,5 +251,3 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
 }
 
 export default CreateBlog
-
-

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import './styles.css'
+import { Typography } from '@mui/material'
 import getBase64Image from './base64'
 import { HeaderDetailsEditPage } from './header'
 
@@ -23,6 +23,7 @@ interface BlogEditProps {
   setFilteredBlog: React.Dispatch<React.SetStateAction<Item | undefined>>
   setIsEditBlog: React.Dispatch<React.SetStateAction<boolean>>
 }
+
 const BlogEdit: React.FC<BlogEditProps> = ({
   filteredBlog,
   blogItemsJSON,
@@ -33,28 +34,52 @@ const BlogEdit: React.FC<BlogEditProps> = ({
 }) => {
   const [oldImageUrl, setOldImageUrl] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageError, setImageError] = useState<string | null>(null)
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const file = e.target.files?.[0];
-
-    // if (file) {
-    //     setSelectedImage(file);
-    //     setOldImageUrl(URL.createObjectURL(file));
-    // }
-
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+
     if (file) {
-      getBase64Image(file).then((base64) => {
-        setSelectedImage(base64)
-        setOldImageUrl('data:image/png;base64,' + base64)
-      })
+      try {
+        // Check image size before processing
+        await validateImageSize(file)
+
+        // If size is within limits, proceed with processing
+        getBase64Image(file).then((base64) => {
+          setSelectedImage(base64)
+          setOldImageUrl('data:image/png;base64,' + base64)
+        })
+        setImageError(null)
+      } catch (error) {
+        console.error('Image size validation failed:', error)
+        //  setImageError(error.message || 'Error validating image size');
+        setImageError((error as Error).message || 'Error validating image size')
+      }
     }
   }
+
   useEffect(() => {
     if (filteredBlog && filteredBlog['imgUrl']) {
       setOldImageUrl(filteredBlog['imgUrl'])
     }
   }, [filteredBlog])
+
+  const validateImageSize = (file: File) => {
+    return new Promise<void>((resolve, reject) => {
+      const fileSizeMB = file.size / (1024 * 1024)
+      const MAX_IMAGE_SIZE_MB = 5 // Set your desired maximum image size in megabytes
+
+      if (fileSizeMB > MAX_IMAGE_SIZE_MB) {
+        reject(
+          new Error(
+            `Image size exceeds the maximum allowed size of ${MAX_IMAGE_SIZE_MB} MB`,
+          ),
+        )
+      } else {
+        resolve()
+      }
+    })
+  }
 
   const handleSave = () => {
     if (filteredBlog) {
@@ -75,6 +100,7 @@ const BlogEdit: React.FC<BlogEditProps> = ({
             ? 'data:image/png;base64,' + selectedImage
             : null,
         }
+
         // Update the local storage
         if (blogItemsJSON) {
           const updatedBlogItems = JSON.parse(blogItemsJSON).map(
@@ -82,10 +108,9 @@ const BlogEdit: React.FC<BlogEditProps> = ({
           )
 
           localStorage.setItem('items', JSON.stringify(updatedBlogItems))
-
           setBlogItemsJSON(JSON.stringify(updatedBlogItems))
 
-          // // Update filteredBlog to match the new title
+          // Update filteredBlog to match the new title
           setFilteredBlog(updatedBlog)
 
           // Switch back to non-edit mode
@@ -109,15 +134,11 @@ const BlogEdit: React.FC<BlogEditProps> = ({
     if (imageInput) {
       imageInput.value = '' // Reset the input value
     }
+    setImageError(null)
   }
+
   return (
     <>
-      {/* <Toolbar variant="regular" className='toolbar' sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Link to={'/'} style={{textDecoration:'none',textDecorationColor:'transparent'}} className="logo">
-                <Typography variant="h5" component="h1" className="logo">Blog Post</Typography>
-                </Link>
-              
-            </Toolbar> */}
       <HeaderDetailsEditPage />
       <Box sx={{ padding: '30px' }}>
         <Stack spacing={2}>
@@ -152,6 +173,11 @@ const BlogEdit: React.FC<BlogEditProps> = ({
             accept="image/*"
             onChange={handleImageChange}
           />
+          {imageError && (
+            <Typography variant="caption" color="error">
+              {imageError}
+            </Typography>
+          )}
           <Box>
             {' '}
             <Button
@@ -187,4 +213,5 @@ const BlogEdit: React.FC<BlogEditProps> = ({
     </>
   )
 }
+
 export default BlogEdit
