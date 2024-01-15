@@ -47,7 +47,6 @@ const Home: React.FC = () => {
   useEffect(() => {
     const storedData = localStorage.getItem('items')
 
-    console.log('hey')
     if (storedData === null) {
       // If the item is not present in localStorage, set default data or handle it as needed
       const defaultData = data
@@ -97,10 +96,9 @@ const Home: React.FC = () => {
     firstBlogIndex,
     lastBlogIndex,
   )
-  console.log('currentBlogItems', currentBlogItems)
+
 
   const handleCreate = () => {
-    console.log('create a new blog')
     setIsCreateBlog(true)
   }
 

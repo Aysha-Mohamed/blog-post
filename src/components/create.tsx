@@ -40,7 +40,8 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
     string | null
   >(null)
 
-  const MAX_IMAGE_SIZE_MB = 5
+  const MAX_IMAGE_SIZE_MB = 1.6
+  
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitleValue = e.target.value
@@ -73,7 +74,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
         })
       } catch (error) {
         setImageValidationMessage(
-          'Image size exceeds the maximum allowed size of 5 MB',
+          'Image size exceeds the maximum allowed size of 1.5 MB',
         )
         // Display an error message to the user, e.g., set a state to show an error message
       }
