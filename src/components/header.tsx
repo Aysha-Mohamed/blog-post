@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
             value={searchTerm}
             // clearOnBlur={false}
             onChange={(
-              event: React.ChangeEvent<NonNullable<unknown>>,
+              _: React.ChangeEvent<NonNullable<unknown>>,
               newValue: string | null,
             ) => {
               if (newValue !== null) {

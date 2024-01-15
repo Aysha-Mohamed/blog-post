@@ -66,7 +66,7 @@ const Home: React.FC = () => {
   const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState<string | null>(null)
 
-  const handlePageChange = (e: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
   }
 
