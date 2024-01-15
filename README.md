@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Blog Post App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A blog app built with React and TypeScript.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- List of blog posts with titles, excerpts, and images
+- Pagination for navigating through blog posts
+- Search bar to filter blog posts by title
+- Detailed view of each blog post
+- Form to create new blog posts
+- Form to edit existing blog posts
+- Responsive design
 
-## Expanding the ESLint configuration
+## Implementation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Local storage used as the API for storing and retrieving blog posts
+- Seed data used to populate the database initially
+- CRUD operations (Create, Read, Update, Delete) implemented and persisted in local storage
+- Material UI used for styling
 
-- Configure the top-level `parserOptions` property like this:
+## Areas of Improvement
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+I will be working on implementing Cypress E2E tests for this project.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Deployment
+
+The project is deployed on Netlify. You can access it [here](https://symphonious-monstera-8e9ed2.netlify.app/).
+
+## Installation
+
+To get started with the Blog Post App, follow these steps:
+
+```bash
+# Clone the repository
+git clone https://github.com/Aysha-Mohamed/blog-post.git
+
+# Navigate to the project directory
+cd blog-post
+
+# Install dependencies
+npm install
+
+# Run the project
+npm run dev
