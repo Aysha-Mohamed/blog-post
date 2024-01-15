@@ -40,8 +40,12 @@ const CreateBlog: React.FC<CreateBlogProps> = ({
     string | null
   >(null)
 
+<<<<<<< HEAD
   const MAX_IMAGE_SIZE_MB = 1.6
   
+=======
+  const MAX_IMAGE_SIZE_MB = 3
+>>>>>>> 286b60faa15e00f0e6b98da9ea06ee2e81fab4a3
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitleValue = e.target.value
