@@ -2,6 +2,9 @@
 
 A blog app built with React and TypeScript.
 
+I opted for Vite due to its exceptionally fast development server, flexible configuration, and efficient production builds with features like tree-shaking and code-splitting. 
+This choice ensures quick development, customization, and optimal performance for the project.
+
 ## Features
 
 - List of blog posts with titles, excerpts, and images
