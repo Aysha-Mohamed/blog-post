@@ -8,20 +8,8 @@ import Stack from '@mui/material/Stack'
 
 import getBase64Image from './base64.js'
 import { HeaderCreatePage } from './header.tsx'
+import CreateBlogProps from '../interfaces/create-blog-props.ts';
 
-interface Item {
-  id: number
-  title: string
-  content: string
-  createdAt: string
-  imgUrl: string | null
-}
-
-interface CreateBlogProps {
-  data: Item[]
-  setData: React.Dispatch<React.SetStateAction<Item[]>>
-  setIsCreateBlog: React.Dispatch<React.SetStateAction<boolean>>
-}
 
 const CreateBlog: React.FC<CreateBlogProps> = ({
   data,

@@ -11,14 +11,9 @@ import { useMediaQuery } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import './styles.css'
 import { HeaderDetailsEditPage } from './header'
+import Item from '../interfaces/item-interface'
 
-interface Item {
-  id: number
-  title: string
-  content: string
-  createdAt: string
-  imgUrl: string | null
-}
+
 const BlogDetail = () => {
   const { blogId } = useParams()
   const [blogItemsJSON, setBlogItemsJSON] = useState<string | null>(null)

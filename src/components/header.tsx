@@ -10,24 +10,7 @@ import {
 import TextField from '@mui/material/TextField'
 import { Link } from 'react-router-dom'
 import BlogLogo from '../assets/icon-blog.png'
-
-interface Item {
-  id: number
-  title: string
-  content: string
-  createdAt: string
-  imgUrl: string | null
-}
-
-interface HeaderProps {
-  handlePage: () => void
-  allBlogItems: Item[]
-  searchTerm: string | null
-  setSearchTerm: React.Dispatch<React.SetStateAction<string | null>>
-  setPage: React.Dispatch<React.SetStateAction<number>>
-  setCountOfPagination: React.Dispatch<React.SetStateAction<number>>
-  currentBlogItems: Item[]
-}
+import HeaderProps from '../interfaces/header-props'
 
 export const Header: React.FC<HeaderProps> = ({
   handlePage,

@@ -6,23 +6,8 @@ import Stack from '@mui/material/Stack'
 import { Typography } from '@mui/material'
 import getBase64Image from './base64'
 import { HeaderDetailsEditPage } from './header'
-
-interface Item {
-  id: number
-  title: string
-  content: string
-  createdAt: string
-  imgUrl: string | null
-}
-
-interface BlogEditProps {
-  filteredBlog: Item
-  blogItemsJSON: string | null
-  blogId: string | undefined
-  setBlogItemsJSON: React.Dispatch<React.SetStateAction<string | null>>
-  setFilteredBlog: React.Dispatch<React.SetStateAction<Item | undefined>>
-  setIsEditBlog: React.Dispatch<React.SetStateAction<boolean>>
-}
+import Item from '../interfaces/item-interface'
+import BlogEditProps from '../interfaces/edit-blog-props'
 
 const BlogEdit: React.FC<BlogEditProps> = ({
   filteredBlog,

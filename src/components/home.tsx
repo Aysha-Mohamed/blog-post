@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper'
 import './styles.css'
 import { useMediaQuery } from '@mui/material'
 import { Header } from './header'
+import Item from '../interfaces/item-interface'
 
 const GridItem = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,13 +33,6 @@ const generateExcerpt = (content: string, maxLength: number = 150): string => {
 }
 
 const Home: React.FC = () => {
-  interface Item {
-    id: number
-    title: string
-    content: string
-    createdAt: string
-    imgUrl: string | null
-  }
 
   const [data, setData] = useState(SeedData)
   const [isCreateBlog, setIsCreateBlog] = useState(false)
@@ -121,7 +115,7 @@ const Home: React.FC = () => {
         <>
           <Fab
             color="primary"
-            aria-label="create"
+            aria-label="create" 
             onClick={handleCreate}
             className="fabIcon"
           >

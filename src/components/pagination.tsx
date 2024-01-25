@@ -1,10 +1,7 @@
 import { Box, Pagination } from '@mui/material'
 import React from 'react'
-interface BlogPaginationProps {
-  page: number
-  handlePageChange: (event: React.ChangeEvent<unknown>, value: number) => void
-  count: number
-}
+import BlogPaginationProps from '../interfaces/pagination-props'
+
 
 const BlogPagination: React.FC<BlogPaginationProps> = ({
   page,
